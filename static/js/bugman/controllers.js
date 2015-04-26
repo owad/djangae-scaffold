@@ -4,7 +4,7 @@ app.controller('ProjectsController', ['$scope', 'alligator', function($scope, al
     });
 }]);
 
-app.controller('LotteryController', ['$scope', 'alligator', '$routeParams', function($scope, alligator, $routeParams) {
+app.controller('LotteryController', ['$scope', 'alligator', 'bugmans', '$routeParams', function($scope, alligator, bugmans, $routeParams) {
     alligator.success(function(data) {
         $scope.projects = data.projects;
         $scope.allocations = data.allocations;
@@ -12,8 +12,6 @@ app.controller('LotteryController', ['$scope', 'alligator', '$routeParams', func
         $scope.project = $scope.selectProject($routeParams.id);
         $scope.projectUsers = $scope.filterUsers(parseInt($routeParams.id));
     });
-
-
 
     $scope.selectProject = function(projectId) {
         return $scope.projects.filter(function(project) { return projectId == project.id; })[0];
@@ -80,6 +78,11 @@ app.controller('LotteryController', ['$scope', 'alligator', '$routeParams', func
 
     $scope.startAll = function() {
         $('.roll-it-btn').addClass('disabled');
+
+        bugmans.success(function(data) {
+            $scope.results = data;
+        });
+
         angular.forEach($scope.days, function(day, idx) {
             var usersCount = $scope.projectUsers.length;
             var extraLoops = getRandomInt(0, usersCount) + usersCount * idx;
@@ -101,5 +104,4 @@ app.controller('LotteryController', ['$scope', 'alligator', '$routeParams', func
         $('.roll-it-btn').removeClass('disabled');
         return results;
     };
-
 }]);
