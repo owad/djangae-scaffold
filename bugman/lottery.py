@@ -1,6 +1,9 @@
 from random import sample, choice
 
 
+WEEK_DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+
+
 def pick_bugmans(devs, days):
     if len(devs) >= len(days):
         return sample(devs, len(days))

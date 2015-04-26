@@ -3,7 +3,8 @@ import json
 from django.views.generic import TemplateView
 from django.http import HttpResponse
 
-from lottery import pick_bugmans
+from lottery import pick_bugmans, WEEK_DAYS
+from dummy import PROJECTS, USERS, ALLOCATIONS
 
 
 class Home(TemplateView):
@@ -18,7 +19,15 @@ home = Home.as_view()
 
 
 def bugmans(request, project_id):
-    devs = ['user1', 'user2', 'user3', 'user4', 'user5']
-    days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
-    losers = pick_bugmans(devs, days)
+    devs = ['user1', 'user2', 'user3', 'user4', 'user5', 'user6', 'user7']
+    losers = pick_bugmans(devs, WEEK_DAYS)
     return HttpResponse(json.dumps(losers))
+
+
+def alligator(request):
+    data = {
+        'projects': PROJECTS,
+        'users': USERS,
+        'allocations': ALLOCATIONS
+    }
+    return HttpResponse(json.dumps(data))

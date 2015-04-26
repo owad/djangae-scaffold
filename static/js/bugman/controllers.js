@@ -1,37 +1,23 @@
 app.controller('ProjectsController', ['$scope', 'alligator', function($scope, alligator) {
-    //alligator.success(function(data) {
-    //    console.log('dupa!');
-    //    $scope.project = data.projects;
-    //    $scope.allocations = data.allocations;
-    //    $scope.users = data.users;
-    //});
-
-    $scope.projects = PROJECTS;
-    $scope.allocations = ALLOCATIONS;
-    $scope.users = USERS;
-
-    $scope.message = 'Default';
-    $scope.selectedProject = false;
-
+    alligator.success(function(data) {
+        $scope.projects = data.projects;
+    });
 }]);
 
 app.controller('LotteryController', ['$scope', 'alligator', '$routeParams', function($scope, alligator, $routeParams) {
-    $scope.message = 'routing is working!';
-    //alligator.success(function(data) {
-    //    $scope.project = data['projects'];
-    //    $scope.allocations = data['allocations'];
-    //    $scope.users = data['users'];
-    //});
+    alligator.success(function(data) {
+        $scope.projects = data.projects;
+        $scope.allocations = data.allocations;
+        $scope.users = data.users;
+        $scope.project = $scope.selectProject($routeParams.id);
+        $scope.projectUsers = $scope.filterUsers(parseInt($routeParams.id));
+    });
 
-    $scope.projects = PROJECTS;
-    $scope.allocations = ALLOCATIONS;
-    $scope.users = USERS;
+
 
     $scope.selectProject = function(projectId) {
         return $scope.projects.filter(function(project) { return projectId == project.id; })[0];
     };
-
-    $scope.project = $scope.selectProject($routeParams.id);
 
     $scope.filterUsers = function(projectId) {
         var filteredAllocations = $scope.allocations.filter(function(allocation) { return allocation.project === parseInt(projectId); });
@@ -49,7 +35,6 @@ app.controller('LotteryController', ['$scope', 'alligator', '$routeParams', func
         return projectUsers;
     };
 
-    $scope.projectUsers = $scope.filterUsers(parseInt($routeParams.id));
     $scope.progress = 0;
 
     $scope.resultsReady = function() {
