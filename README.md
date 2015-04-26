@@ -1,1 +1,3 @@
-# Bugman - pick random devs for a weekly bugman duty
+# Bugman app
+
+pick random devs for a weekly bugman duty
