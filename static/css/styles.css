@@ -1,0 +1,42 @@
+.ng-hide {
+    display: none;
+}
+
+.ng-show {
+    display: block;
+}
+
+div.days h4 {
+    text-align: center;
+    width: 180px;
+}
+
+div.days li {
+    list-style: none;
+    padding: 6px 10px;
+    white-space: nowrap;
+}
+
+div.day {
+    position: relative;
+    width: 180px;
+    height: 35px;
+    z-index: -10;
+    overflow: hidden;
+    border: 1px solid white;
+}
+
+div.day ul {
+    position: absolute;
+    width: 180px;
+    height: 40px;
+    top: -40px;
+    padding-left: 0;
+    text-align: center;
+}
+
+div.day ul li {
+    display: block;
+    height: 40px;
+    width: 180px;
+}

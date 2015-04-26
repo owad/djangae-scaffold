@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'cspreports',
     'djangae.contrib.gauth',
     'djangae.contrib.security',
+    'bugman',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -54,6 +55,7 @@ MIDDLEWARE_CLASSES = (
     'csp.middleware.CSPMiddleware',
     'session_csrf.CsrfMiddleware',
     'djangosecure.middleware.SecurityMiddleware',
+    'bugman.middleware.LoginRequiredMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -106,11 +108,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
-
-
-if DEBUG:
-    CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 # sensible default CPS settings, feel free to modify them
 CSP_DEFAULT_SRC = ("'self'", "*.gstatic.com")
@@ -121,5 +123,13 @@ CSP_SCRIPT_SRC = ("'self'", "*.googleanalytics.com", "*.google-analytics.com", "
 CSP_IMG_SRC = ("'self'", "data:", "s.ytimg.com", "*.googleusercontent.com", "*.gstatic.com")
 CSP_CONNECT_SRC = ("'self'", "plus.google.com", "www.google-analytics.com")
 
+if DEBUG:
+    CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)
+
+AUTH_USER_MODEL = 'bugman.BugmanUser'
 
 from djangae.contrib.gauth.settings import *

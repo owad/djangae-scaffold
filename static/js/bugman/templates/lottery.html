@@ -1,0 +1,24 @@
+<h3 ng-show="project">{$ project.name $} ({$ projectUsers.length $} potatoes)
+    <a class="btn btn-primary bt-lg roll-it-btn" ng-show="projectUsers.length > 1" ng-click="startAll()">Roll the spuds!</a>
+</h3>
+
+<div ng-show="projectUsers.length > 1">
+    <div class="days-container">
+        <div class="days {$ day $}" style="float: left;" ng-repeat="day in days">
+            <h4>{$ day | uppercase $}</h4>
+            <div class="day">
+                <ul>
+                    <li data-id="{$ user.user $}" ng-repeat="user in projectUsers">{$ user.fullname $}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-show="projectUsers.length == 1">
+    The only person in this project is <strong>{$ projectUsers[0].fullname $}</strong> so errr...
+</div>
+<div ng-show="projectUsers.length == 0">
+    The project runs itself!
+</div>
+
+<div><a href="#/">back</a></div>
