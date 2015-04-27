@@ -67,7 +67,7 @@ USERS = [
 PROJECTS = [
     {
         "id": 1,
-        "name": "Project 1 (5)",
+        "name": "Project 1",
         "codebase_url": "",
         "project_id": None,
         "project_url": "https://example.com/project/1/",
@@ -75,7 +75,7 @@ PROJECTS = [
     },
     {
         "id": 2,
-        "name": "Project 2 (3)",
+        "name": "Project 2",
         "codebase_url": "",
         "project_id": None,
         "project_url": "https://example.com/project/2/",
@@ -83,7 +83,7 @@ PROJECTS = [
     },
     {
         "id": 3,
-        "name": "Project 3 (2)",
+        "name": "Project 3",
         "codebase_url": "",
         "project_id": None,
         "project_url": "https://example.com/project/3/",
@@ -91,7 +91,7 @@ PROJECTS = [
     },
     {
         "id": 4,
-        "name": "Project 4 (1)",
+        "name": "Project 4",
         "codebase_url": "",
         "project_id": None,
         "project_url": "https://example.com/project/4/",
@@ -99,7 +99,7 @@ PROJECTS = [
     },
     {
         "id": 5,
-        "name": "Project 5 (0)",
+        "name": "Project 5",
         "codebase_url": "",
         "project_id": None,
         "project_url": "https://example.com/project/5/",
