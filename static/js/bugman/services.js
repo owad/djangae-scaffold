@@ -3,7 +3,7 @@ var ALLIGATOR_BASE = 'https://alligator.p.ota.to/api/v2/'
 
 app.factory('bugmans', ['$http', '$routeParams', function($http, $routeParams) {
 
-    return $http.get('/bugmans/' + $routeParams.id + '/')
+    return $http.get('/bugmans/' + $routeParams.id + '/', {cache: false})
         .success(function(data) {
             return data;
         })

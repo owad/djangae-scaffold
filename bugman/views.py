@@ -19,8 +19,11 @@ home = Home.as_view()
 
 
 def bugmans(request, project_id):
-    devs = ['user1', 'user2', 'user3', 'user4', 'user5', 'user6', 'user7']
-    losers = pick_bugmans(devs, WEEK_DAYS)
+    users = get_users_for_project(int(project_id))
+    losers = pick_bugmans(users, WEEK_DAYS)
+    import logging
+    logging.warning([losers[day] for day in WEEK_DAYS])
+    # TODO: save before returning
     return HttpResponse(json.dumps(losers))
 
 
@@ -31,3 +34,31 @@ def alligator(request):
         'allocations': ALLOCATIONS
     }
     return HttpResponse(json.dumps(data))
+
+
+# helpers
+def get_project_by_id(project_id):
+    for project in PROJECTS:
+        if project_id == project['id']:
+            return project
+
+
+def get_users_for_project(project_id):
+    project_allocations = []
+    for allocation in ALLOCATIONS:
+        if allocation['project'] == project_id:
+            project_allocations.append(allocation)
+
+    users = []
+    for allocation in project_allocations:
+        user = get_user(allocation['user'])
+        if user not in users:
+            users.append(user)
+
+    return users
+
+
+def get_user(username):
+    for user in USERS:
+        if username == user['username']:
+            return user

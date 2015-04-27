@@ -4,7 +4,7 @@ app.controller('ProjectsController', ['$scope', 'alligator', function($scope, al
     });
 }]);
 
-app.controller('LotteryController', ['$scope', 'alligator', 'bugmans', '$routeParams', function($scope, alligator, bugmans, $routeParams) {
+app.controller('LotteryController', ['$scope', '$http', 'alligator', 'bugmans', '$routeParams', function($scope, $http, alligator, bugmans, $routeParams) {
     alligator.success(function(data) {
         $scope.projects = data.projects;
         $scope.allocations = data.allocations;
@@ -12,6 +12,8 @@ app.controller('LotteryController', ['$scope', 'alligator', 'bugmans', '$routePa
         $scope.project = $scope.selectProject($routeParams.id);
         $scope.projectUsers = $scope.filterUsers(parseInt($routeParams.id));
     });
+
+    $scope.losers = [];
 
     $scope.selectProject = function(projectId) {
         return $scope.projects.filter(function(project) { return projectId == project.id; })[0];
@@ -35,28 +37,42 @@ app.controller('LotteryController', ['$scope', 'alligator', 'bugmans', '$routePa
 
     $scope.progress = 0;
 
-    $scope.resultsReady = function() {
+    $scope.allStopped = function() {
         return $scope.progress == $scope.days.length;
     };
 
-    $scope.results = new Array();
-
     $scope.days = new Array("monday", "tuesday", "wednesday", "thursday", "friday");
 
-    $scope.rollIt = function(day, loopsCount) {
+    var getUsernamesFromUl = function(users) {
+        var usernames = new Array();
+        angular.forEach(users, function(user) {
+            usernames.push($(user).data('id'))
+        });
+        return usernames;
+    };
+
+    var getRandomInt = function(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    };
+
+    $scope.rollIt = function(day) {
+        var pick = $scope.losers[day];
         var list = $('.' + day + ' ul');
         var usersCount = list.children().length;
         var initTop = list.css('top');
-        var loopsMade = 0;
         $scope.progress = 0;
-        $scope.results = new Array();
+
+        var loopsMade = 0;
+        var usersUl = list.children();
+        var userNames = getUsernamesFromUl(usersUl);
+        var offset = usersCount - userNames.indexOf(pick) + 1;
+        var loopsCount = offset + getRandomInt(5, 15) * usersCount;
 
         for (var i=0; i<loopsCount; i++) {
-            list.animate({top: '+=40'}, i+75, 'linear', function () {
-                var users = list.children();
-                var lastUser = users[usersCount - 1];
+            list.animate({top: '+=40'}, i+50+2*i, 'linear', function () {
+                var usersUl = list.children();
+                var lastUser = usersUl[usersCount - 1];
 
-                //lastUser.remove();
                 list.css('top', initTop);
                 list.prepend(lastUser);
                 loopsMade += 1;
@@ -65,43 +81,30 @@ app.controller('LotteryController', ['$scope', 'alligator', 'bugmans', '$routePa
                     $scope.progress += 1;
                 }
 
-                if ($scope.resultsReady()) {
-                    $scope.results = $scope.getResults();
+                if ($scope.allStopped()) {
+                    $('.roll-it-btn').removeClass('disabled');
                 }
             });
         }
     };
 
-    var getRandomInt = function(min, max) {
-        return Math.floor(Math.random() * (max - min)) + min;
-    };
+    $scope.results = new Array();
 
     $scope.startAll = function() {
-        $('.roll-it-btn').addClass('disabled');
 
-        bugmans.success(function(data) {
-            $scope.results = data;
+        // get the results
+        $http.get('/bugmans/' + $routeParams.id)
+        .then(function(result) {
+            $scope.losers = result.data;
+            $('.roll-it-btn').addClass('disabled');
+
+            bugmans.success(function(data) {
+                $scope.results = data;
+            });
+
+            angular.forEach($scope.days, function(day) {
+                $scope.rollIt(day.toLowerCase());
+            });
         });
-
-        angular.forEach($scope.days, function(day, idx) {
-            var usersCount = $scope.projectUsers.length;
-            var extraLoops = getRandomInt(0, usersCount) + usersCount * idx;
-            var loopsCount = 25 + extraLoops;
-            $scope.rollIt(day.toLowerCase(), loopsCount);
-        });
-    };
-
-    $scope.getResultForDay = function(day) {
-        var list = $('.' + day.toLowerCase() + ' ul');
-        return list.children()[1].innerText;
-    };
-
-    $scope.getResults = function() {
-        var results = {};
-        angular.forEach($scope.days, function(day) {
-            results[day] = $scope.getResultForDay(day);
-        });
-        $('.roll-it-btn').removeClass('disabled');
-        return results;
     };
 }]);

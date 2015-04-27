@@ -17,5 +17,3 @@ var app = angular.module('BugmanApp', ['ngRoute'])
             redirecTo: '/'
         });
 });
-
-//var app = angular.module('BugmanApp', []);
