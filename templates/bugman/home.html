@@ -4,17 +4,19 @@
     <head lang="en">
         <meta charset="UTF-8">
         <title></title>
+        <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}" />
+        <link rel="stylesheet" type="text/css" href="{% static "css/styles.css" %}" />
         <script src="{% static "js/angular.js" %}"></script>
         <script src="{% static "js/ng-route.js" %}"></script>
         <script src="{% static "js/jquery-1.11.2.min.js" %}"></script>
-        <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}" />
-        <link rel="stylesheet" type="text/css" href="{% static "css/styles.css" %}" />
     </head>
     <body ng-app="BugmanApp">
-        <div style="display: table-cell">
-            <p>{{ user.email }}</p>
-            <div ng-view style="margin-left:auto; margin-right:auto;"></div>
+        <div class="container" ng-controller="ProjectsController">
+            <select>
+                <option ng-repeat="project in projects">{$ project.name $}</option>
+            </select>
         </div>
+        <div ng-view class="container"></div>
         <script src="{% static "js/bugman/app.js" %}"></script>
         <script src="{% static "js/bugman/controllers.js" %}"></script>
         <script src="{% static "js/bugman/services.js" %}"></script>

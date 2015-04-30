@@ -69,7 +69,7 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', 'bugmans', 
         var loopsCount = offset + getRandomInt(5, 15) * usersCount;
 
         for (var i=0; i<loopsCount; i++) {
-            list.animate({top: '+=40'}, i+50+2*i, 'linear', function () {
+            list.animate({top: '+=40'}, i+50+4*i, 'linear', function () {
                 var usersUl = list.children();
                 var lastUser = usersUl[usersCount - 1];
 
