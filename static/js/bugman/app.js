@@ -5,15 +5,12 @@ var app = angular.module('BugmanApp', ['ngRoute'])
     })
 .config(function($routeProvider) {
     $routeProvider
-        .when('/', {
-            templateUrl: '/static/js/bugman/templates/projects.html',
-            controller: 'ProjectsController'
-        })
-        .when('/project/:id', {
+        .when('/:id', {
             templateUrl: '/static/js/bugman/templates/lottery.html',
             controller: 'LotteryController'
         })
-        .otherwise({
-            redirecTo: '/'
+        .when('/', {
+            templateUrl: '/static/js/bugman/templates/lottery.html',
+            controller: 'LotteryController'
         });
 });

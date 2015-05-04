@@ -6,6 +6,10 @@
     display: block;
 }
 
+div.days {
+    float: left;
+}
+
 div.days h4 {
     text-align: center;
     width: 180px;

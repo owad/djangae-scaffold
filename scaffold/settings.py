@@ -43,7 +43,8 @@ INSTALLED_APPS = (
     'cspreports',
     'djangae.contrib.gauth',
     'djangae.contrib.security',
-    'bugman',
+
+    'core',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,7 +56,8 @@ MIDDLEWARE_CLASSES = (
     'csp.middleware.CSPMiddleware',
     'session_csrf.CsrfMiddleware',
     'djangosecure.middleware.SecurityMiddleware',
-    'bugman.middleware.LoginRequiredMiddleware',
+
+    'core.middleware.LoginRequiredMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -129,7 +131,5 @@ if DEBUG:
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
-
-AUTH_USER_MODEL = 'bugman.BugmanUser'
 
 from djangae.contrib.gauth.settings import *

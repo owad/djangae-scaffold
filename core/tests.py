@@ -2,7 +2,7 @@ from copy import copy
 
 from django.test import TestCase
 
-from lottery import pick_bugmans
+from core.lottery import pick_bugmans
 
 
 class LotteryTest(TestCase):

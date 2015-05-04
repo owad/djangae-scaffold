@@ -10,6 +10,17 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: bugman_lotteryresult
+  properties:
+  - name: created
+  - name: ran_by
+
+- kind: bugman_lotteryresult
+  properties:
+  - name: created
+    direction: desc
+  - name: ran_by
+
 - kind: cspreports_cspreport
   properties:
   - name: created

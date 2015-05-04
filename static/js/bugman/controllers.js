@@ -4,22 +4,37 @@ app.controller('ProjectsController', ['$scope', 'alligator', function($scope, al
     });
 }]);
 
-app.controller('LotteryController', ['$scope', '$http', 'alligator', 'bugmans', '$routeParams', function($scope, $http, alligator, bugmans, $routeParams) {
+app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routeParams', function($scope, $http, alligator, $routeParams) {
+
     alligator.success(function(data) {
         $scope.projects = data.projects;
         $scope.allocations = data.allocations;
         $scope.users = data.users;
-        $scope.project = $scope.selectProject($routeParams.id);
-        $scope.projectUsers = $scope.filterUsers(parseInt($routeParams.id));
+        $scope.projectId = $routeParams.id;
+        $scope.project = $scope.selectProject($scope.projectId);
+        $scope.projectUsers = filterUsers(parseInt($scope.projectId));
+        $scope.checkedUsers = $scope.projectUsers;
     });
 
-    $scope.losers = [];
+    // set first and last day of a week
+    var curr = new Date;
+    var first = curr.getDate() - curr.getDay() + 1;
+    var last = first + 4;
+    $scope.firstDay = new Date(curr.setDate(first)).getTime();
+    $scope.lastDay = new Date(curr.setDate(last)).getTime();
+
+    $scope.losers = false;
 
     $scope.selectProject = function(projectId) {
         return $scope.projects.filter(function(project) { return projectId == project.id; })[0];
     };
 
-    $scope.filterUsers = function(projectId) {
+    $scope.getProjectUserByUserName = function(userName) {
+        return $scope.projectUsers.filter(function(user) { return user.username == userName; })[0];
+    };
+
+    var filterUsers = function(projectId) {
+
         var filteredAllocations = $scope.allocations.filter(function(allocation) { return allocation.project === parseInt(projectId); });
         var projectUsers = new Array();
         if (filteredAllocations) {
@@ -35,10 +50,17 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', 'bugmans', 
         return projectUsers;
     };
 
-    $scope.progress = 0;
+    $scope.updateCheckedUsers = function() {
+        var checkedUsers = new Array();
+        $('.user-checkbox').each(function(idx, el) {
+            if (el.checked) {
+                checkedUsers.push(el.value)
+            }
+        });
 
-    $scope.allStopped = function() {
-        return $scope.progress == $scope.days.length;
+        $scope.checkedUsers = $scope.projectUsers.filter(function(user) {
+            return checkedUsers.indexOf(user.username) > -1;
+        });
     };
 
     $scope.days = new Array("monday", "tuesday", "wednesday", "thursday", "friday");
@@ -64,8 +86,8 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', 'bugmans', 
 
         var loopsMade = 0;
         var usersUl = list.children();
-        var userNames = getUsernamesFromUl(usersUl);
-        var offset = usersCount - userNames.indexOf(pick) + 1;
+        var usernames = getUsernamesFromUl(usersUl);
+        var offset = usersCount - usernames.indexOf(pick) + 1;
         var loopsCount = offset + getRandomInt(5, 15) * usersCount;
 
         for (var i=0; i<loopsCount; i++) {
@@ -83,28 +105,29 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', 'bugmans', 
 
                 if ($scope.allStopped()) {
                     $('.roll-it-btn').removeClass('disabled');
+                    $('.user-checkbox').prop('disabled', false);
                 }
             });
         }
     };
 
-    $scope.results = new Array();
-
     $scope.startAll = function() {
 
-        // get the results
-        $http.get('/bugmans/' + $routeParams.id)
+        var usernames = $scope.checkedUsers.map(function(user) { return user.username; });
+
+        $http.post('/bugmans/' + $routeParams.id  + '/', usernames)
         .then(function(result) {
             $scope.losers = result.data;
             $('.roll-it-btn').addClass('disabled');
-
-            bugmans.success(function(data) {
-                $scope.results = data;
-            });
+            $('.user-checkbox').prop('disabled', true);
 
             angular.forEach($scope.days, function(day) {
                 $scope.rollIt(day.toLowerCase());
             });
         });
+    };
+
+    $scope.allStopped = function() {
+        return $scope.progress == $scope.days.length;
     };
 }]);

@@ -1,10 +1,13 @@
 import json
+import logging
 
-from django.views.generic import TemplateView
-from django.http import HttpResponse
+from django.views.generic import TemplateView, CreateView
+from django.http import HttpResponse, HttpResponseForbidden
+from django.views.decorators.csrf import csrf_exempt
 
-from lottery import pick_bugmans, WEEK_DAYS
-from dummy import PROJECTS, USERS, ALLOCATIONS
+from core.lottery import pick_bugmans, WEEK_DAYS
+from core.dummy import PROJECTS, USERS, ALLOCATIONS
+from core.models import LotteryResult
 
 
 class Home(TemplateView):
@@ -18,13 +21,22 @@ class Home(TemplateView):
 home = Home.as_view()
 
 
+@csrf_exempt
 def bugmans(request, project_id):
-    users = get_users_for_project(int(project_id))
-    losers = pick_bugmans(users, WEEK_DAYS)
-    import logging
-    logging.warning([losers[day] for day in WEEK_DAYS])
-    # TODO: save before returning
-    return HttpResponse(json.dumps(losers))
+
+    if request.method == 'POST':
+        usernames = json.loads(request.body)
+        result = pick_bugmans(usernames, WEEK_DAYS)
+
+        # store the result
+        LotteryResult.objects.create(
+            ran_by=request.user.email().split('@')[0],
+            partakers=json.loads(request.body),
+            result=[d[1] for d in result],
+            project_id=int(project_id),
+        )
+
+        return HttpResponse(json.dumps(dict(result)))
 
 
 def alligator(request):

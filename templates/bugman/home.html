@@ -12,11 +12,12 @@
     </head>
     <body ng-app="BugmanApp">
         <div class="container" ng-controller="ProjectsController">
-            <select>
-                <option ng-repeat="project in projects">{$ project.name $}</option>
-            </select>
+            <ul>
+                <li ng-repeat="project in projects"><a href="/#/{$ project.id $}/">{$ project.name $}</a></li>
+            </ul>
         </div>
         <div ng-view class="container"></div>
+
         <script src="{% static "js/bugman/app.js" %}"></script>
         <script src="{% static "js/bugman/controllers.js" %}"></script>
         <script src="{% static "js/bugman/services.js" %}"></script>

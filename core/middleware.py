@@ -1,9 +1,6 @@
 from google.appengine.api import users
 
-from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect, HttpResponseForbidden
-
-User = get_user_model()
 
 
 class LoginRequiredMiddleware(object):
@@ -28,10 +25,10 @@ class LoginRequiredMiddleware(object):
 
         return view_func(request, *view_args, **view_kwargs)
 
-    def create_user(self, email):
-        user, created = User.objects.get_or_create(username=email.replace('@potatolondon.com', ''))
-        user.email = email
-        user.is_active = True
-        user.save()
-
-        return user, created
+    # def create_user(self, email):
+    #     user, created = User.objects.get_or_create(username=email.replace('@potatolondon.com', ''))
+    #     user.email = email
+    #     user.is_active = True
+    #     user.save()
+    #
+    #     return user, created
