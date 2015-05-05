@@ -17,18 +17,9 @@ class LoginRequiredMiddleware(object):
         else:
             email = user.email()
 
-            # user, created = self.create_user(email)
             if not email.endswith('@potatolondon.com'):
                 return HttpResponseForbidden()
 
             request.user = user
 
         return view_func(request, *view_args, **view_kwargs)
-
-    # def create_user(self, email):
-    #     user, created = User.objects.get_or_create(username=email.replace('@potatolondon.com', ''))
-    #     user.email = email
-    #     user.is_active = True
-    #     user.save()
-    #
-    #     return user, created

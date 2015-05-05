@@ -13,5 +13,6 @@ urlpatterns = patterns('',
     # Note that by default this is also locked down with login:admin in app.yaml
     url(r'^admin/', include(admin.site.urls)),
     url(r'^csp/', include('cspreports.urls')),
+    url(r'^api/', include('api.urls')),
     url(r'^', include('core.urls')),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

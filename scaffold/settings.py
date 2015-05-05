@@ -44,7 +44,9 @@ INSTALLED_APPS = (
     'djangae.contrib.gauth',
     'djangae.contrib.security',
 
+    'rest_framework',
     'core',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -131,5 +133,13 @@ if DEBUG:
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
+#
+# REST_FRAMEWORK = {
+#     # Use Django's standard `django.contrib.auth` permissions,
+#     # or allow read-only access for unauthenticated users.
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+#     ]
+# }
 
 from djangae.contrib.gauth.settings import *

@@ -35,7 +35,6 @@ def bugmans(request, project_id):
             result=[d[1] for d in result],
             project_id=int(project_id),
         )
-
         return HttpResponse(json.dumps(dict(result)))
 
 
