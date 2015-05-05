@@ -21,6 +21,11 @@ indexes:
     direction: desc
   - name: ran_by
 
+- kind: core_lotteryresult
+  properties:
+  - name: project_id
+  - name: created
+
 - kind: cspreports_cspreport
   properties:
   - name: created
