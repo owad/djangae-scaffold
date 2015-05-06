@@ -41,5 +41,10 @@
 
 <div>
     <h4>Week {$ firstDay | date:"yyyy/MM/dd" $} - {$ lastDay | date:"yyyy/MM/dd" $}</h4>
-    
+    <div ng-repeat="result in weeklyResults">
+        {$ result.created | date:"EEEE" $} at {$ result.created | date:"shortTime" $}, ran by {$ result.ran_by $}
+        <div>
+            Results: <span ng-repeat="day in days">{$ day $} <b>{$ result.result[$index] $}</b><span ng-show="!$last">, </span></span>
+        </div>
+    </div>
 </div>

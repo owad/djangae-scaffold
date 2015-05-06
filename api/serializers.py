@@ -13,3 +13,6 @@ class LotteryResultSerializer(serializers.HyperlinkedModelSerializer):
             'created',
             'project_id',
         )
+
+    result = serializers.ListSerializer(child=serializers.CharField())
+    partakers = serializers.ListSerializer(child=serializers.CharField())

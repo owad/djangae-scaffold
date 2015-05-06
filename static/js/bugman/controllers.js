@@ -4,7 +4,7 @@ app.controller('ProjectsController', ['$scope', 'alligator', function($scope, al
     });
 }]);
 
-app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routeParams', function($scope, $http, alligator, $routeParams) {
+app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routeParams', 'weeklyResults', function($scope, $http, alligator, $routeParams, weeklyResults) {
 
     alligator.success(function(data) {
         $scope.projects = data.projects;
@@ -14,7 +14,15 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routePara
         $scope.project = $scope.selectProject($scope.projectId);
         $scope.projectUsers = filterUsers(parseInt($scope.projectId));
         $scope.checkedUsers = $scope.projectUsers;
+        $scope.weeklyResults = getWeeklyResults();
     });
+
+    var getWeeklyResults = function() {
+        weeklyResults.getResults($routeParams.id)
+            .success(function(data) {
+                $scope.weeklyResults = angular.fromJson(data);
+            });
+    };
 
     // set first and last day of a week
     var curr = new Date;
@@ -106,6 +114,8 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routePara
                 if ($scope.allStopped()) {
                     $('.roll-it-btn').removeClass('disabled');
                     $('.user-checkbox').prop('disabled', false);
+                    getWeeklyResults();
+                    console.log($scope.weeklyResults);
                 }
             });
         }
