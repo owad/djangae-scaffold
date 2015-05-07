@@ -12,9 +12,10 @@
     </head>
     <body ng-app="BugmanApp">
         <div class="container" ng-controller="ProjectsController">
-            <ul>
-                <li ng-repeat="project in projects"><a href="/#/{$ project.id $}/">{$ project.name $}</a></li>
-            </ul>
+            <span ng-repeat="project in projects">
+                <a href="/#/{$ project.id $}/">{$ project.name $}</a>
+                <span ng-show="!$last"> | </span>
+            </span>
         </div>
         <div ng-view class="container"></div>
 

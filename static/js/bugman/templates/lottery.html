@@ -1,4 +1,5 @@
-<h3 ng-show="project">{$ project.name $} - {$ projectUsers.length $} potato<span ng-if="projectUsers.length != 1">es</span>
+<h3 ng-show="project">
+    {$ project.name $} - {$ projectUsers.length $} potato<span ng-if="projectUsers.length != 1">es</span>
     <a class="btn btn-primary bt-lg roll-it-btn" ng-show="projectUsers.length > 1" ng-click="startAll()">Roll the spuds!</a>
 </h3>
 
@@ -39,12 +40,13 @@
     The project runs itself!
 </div>
 
-<div>
+<div class="week-results">
     <h4>Week {$ firstDay | date:"yyyy/MM/dd" $} - {$ lastDay | date:"yyyy/MM/dd" $}</h4>
-    <div ng-repeat="result in weeklyResults">
-        {$ result.created | date:"EEEE" $} at {$ result.created | date:"shortTime" $}, ran by {$ result.ran_by $}
+    <div class="result" ng-repeat="result in weeklyResults">
+        <div>Ran by {$ result.ran_by $} on {$ result.created | date:"EEEE" $} at {$ result.created | date:"shortTime" $}</div>
+        <div>Partakers: <span ng-repeat="partaker in result.partakers">{$ partaker $}<span ng-show="!$last">, </span></span></div>
         <div>
-            Results: <span ng-repeat="day in days">{$ day $} <b>{$ result.result[$index] $}</b><span ng-show="!$last">, </span></span>
+            <span ng-repeat="day in days">{$ day $} <b>{$ result.result[$index] $}</b><span ng-show="!$last">, </span></span>
         </div>
     </div>
 </div>

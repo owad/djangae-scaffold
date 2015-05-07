@@ -44,3 +44,12 @@ div.day ul li {
     height: 40px;
     width: 180px;
 }
+
+.week-results {
+    clear: both;
+    padding-top: 20px;
+}
+
+.week-results .result {
+    margin-top: 10px;
+}
