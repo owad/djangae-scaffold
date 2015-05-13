@@ -20,14 +20,12 @@
 </div>
 
 <div ng-show="checkedUsers.length > 1">
-    <div class="days-container">
-        <div class="days {$ day $}" ng-repeat="day in days">
-            <h4>{$ day | uppercase $}</h4>
-            <div class="day">
-                <ul>
-                    <li data-id="{$ user.username $}" ng-repeat="user in projectUsers">{$ user.fullname $}</li>
-                </ul>
-            </div>
+    <div class="days {$ day $}" ng-repeat="day in days">
+        <h4>{$ day | uppercase $}</h4>
+        <div class="day">
+            <ul>
+                <li data-id="{$ user.username $}" ng-repeat="user in projectUsers">{$ user.fullname $}</li>
+            </ul>
         </div>
     </div>
 </div>
