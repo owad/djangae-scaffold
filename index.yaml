@@ -48,8 +48,3 @@ indexes:
   properties:
   - name: app
   - name: name
-
-- kind: core_lotteryresult
-  properties:
-  - name: project_id
-  - name: created
