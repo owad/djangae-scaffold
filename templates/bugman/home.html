@@ -11,11 +11,23 @@
     </head>
     <body ng-app="BugmanApp">
         <div class="container" ng-controller="ProjectsController">
-            <span ng-repeat="project in projects">
-                <a href="/#/{$ project.id $}/">{$ project.name $}</a>
-                <span ng-show="!$last"> | </span>
-            </span>
+
+            <ul id="dropdown1" class="dropdown-content">
+                <li ng-repeat="project in projects">
+                    <a href="/#/{$ project.id $}/">{$ project.name $}</a>
+                </li>
+            </ul>
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="#!" class="brand-logo">Bugman Duty</a>
+                    <ul class="right hide-on-med-and-down">
+                        <!-- <li><a href="sass.html">Sass</a></li> -->
+                        <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Projects<i class="mdi-navigation-arrow-drop-down right"></i></a></li>
+                    </ul>
+                </div>
+            </nav>
         </div>
+
         <div ng-view class="container"></div>
 
         <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>

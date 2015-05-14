@@ -1,3 +1,11 @@
+.ng-show {
+    display: block;
+}
+
+.ng-hide {
+    display: none;
+}
+
 div.day {
     position: relative;
     width: 180px;

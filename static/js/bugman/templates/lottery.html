@@ -1,27 +1,31 @@
-<h3 ng-show="project">
-    {$ project.name $} - {$ projectUsers.length $} potato<span ng-if="projectUsers.length != 1">es</span>
-    <a class="btn btn-primary bt-lg roll-it-btn" ng-show="projectUsers.length > 1" ng-click="startAll()">Roll the spuds!</a>
-</h3>
-
-<div ng-show="!project">Select a project</div>
-
-<div ng-show="projectUsers.length > 1">
-    <h3>Included potatoes</h3>
-    <label for="{$ user.username $}-checkbox" ng-repeat="user in projectUsers">
-        <input checked
-               type="checkbox"
-               value="{$ user.username $}"
-               class="user-checkbox"
-               id="{$ user.username $}-checkbox"
-               ng-click="updateCheckedUsers()"
-        />
-        {$ user.fullname $}
-    </label>
+<div ng-show="project" class="center-align">
+    <h4>{$ project.name $} - {$ projectUsers.length $} potato<span ng-if="projectUsers.length != 1">es</span></h4>
+    <a class="waves-effect waves-light btn" ng-show="projectUsers.length > 1" ng-click="startAll()">Roll!</a>
 </div>
+
+<div ng-show="projectUsers.length > 1" class="center-align">
+    <h5>Included potatoes</h5>
+    <p>
+        <span ng-repeat="user in projectUsers">
+            <input type="checkbox"
+                   id="{$ user.username $}-checkbox"
+                   value="{$ user.username $}"
+                   ng-click="updateCheckedUsers()"
+                   class="user-checkbox"
+                   checked="checked"
+            />
+            <label for="{$ user.username $}-checkbox">{$ user.fullname $}</label>
+        </span>
+    </p>
+</div>
+
+<h5 class="center-align" ng-show="checkedUsers.length == 1">The only person in this project is <strong>{$ checkedUsers[0].fullname $}</strong> so errr...</h5>
+<h5 class="center-align" ng-show="project && checkedUsers.length == 0">The project runs itself!</h5>
+<h5 class="center-align" ng-show="!project">pick a project and roll the spuds!</h5>
 
 <div ng-show="checkedUsers.length > 1">
     <div class="days {$ day $}" ng-repeat="day in days">
-        <h4>{$ day | uppercase $}</h4>
+        <h6>{$ day | uppercase $}</h6>
         <div class="day">
             <ul>
                 <li data-id="{$ user.username $}" ng-repeat="user in projectUsers">{$ user.fullname $}</li>
@@ -30,21 +34,43 @@
     </div>
 </div>
 
-<div ng-show="checkedUsers.length == 1">
-    The only person in this project is <strong>{$ checkedUsers[0].fullname $}</strong> so errr...
-</div>
+<div ng-show="weeklyResults.length > 0" class="week-results">
+    <h4 class="center-align">Week {$ firstDay | date:"yyyy/MM/dd" $} - {$ lastDay | date:"yyyy/MM/dd" $}</h4>
 
-<div ng-show="project && checkedUsers.length == 0">
-    The project runs itself!
+    <ul class="collection">
+        <li class="collection-item" ng-repeat="result in weeklyResults">
+            <!-- <img src="images/yuna.jpg" alt="" class="circle"> -->
+            <span class="title">Ran by {$ result.ran_by $} on {$ result.created | date:"EEEE" $} at {$ result.created | date:"shortTime" $}</span>
+            <p>Partakers: <span ng-repeat="partaker in result.partakers">{$ partaker $}<span ng-show="!$last">, </span></span><br>
+                <span ng-repeat="day in days">{$ day $} <b>{$ result.result[$index] $}</b><span ng-show="!$last">, </span></span>
+            </p>
+        </li>
+    </ul>
 </div>
-
-<div class="week-results">
-    <h4>Week {$ firstDay | date:"yyyy/MM/dd" $} - {$ lastDay | date:"yyyy/MM/dd" $}</h4>
-    <div class="result" ng-repeat="result in weeklyResults">
-        <div>Ran by {$ result.ran_by $} on {$ result.created | date:"EEEE" $} at {$ result.created | date:"shortTime" $}</div>
-        <div>Partakers: <span ng-repeat="partaker in result.partakers">{$ partaker $}<span ng-show="!$last">, </span></span></div>
-        <div>
-            <span ng-repeat="day in days">{$ day $} <b>{$ result.result[$index] $}</b><span ng-show="!$last">, </span></span>
+<!--
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Footer Content</h5>
+                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
+    <div class="footer-copyright">
+        <div class="container">
+            © 2014 Copyright Text
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+        </div>
+    </div>
+</footer>
+-->

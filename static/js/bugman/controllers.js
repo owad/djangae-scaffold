@@ -14,7 +14,10 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routePara
         $scope.project = $scope.selectProject($scope.projectId);
         $scope.projectUsers = filterUsers(parseInt($scope.projectId));
         $scope.checkedUsers = $scope.projectUsers;
-        $scope.weeklyResults = getWeeklyResults();
+
+        if ($scope.project) {
+            $scope.weeklyResults = getWeeklyResults();
+        }
     });
 
     var getWeeklyResults = function() {
