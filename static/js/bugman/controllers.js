@@ -118,7 +118,6 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routePara
                     $('.roll-it-btn').removeClass('disabled');
                     $('.user-checkbox').prop('disabled', false);
                     getWeeklyResults();
-                    console.log($scope.weeklyResults);
                 }
             });
         }

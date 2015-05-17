@@ -1,9 +1,9 @@
 <div ng-show="project" class="center-align">
     <h4>{$ project.name $} - {$ projectUsers.length $} potato<span ng-if="projectUsers.length != 1">es</span></h4>
-    <a class="waves-effect waves-light btn" ng-show="projectUsers.length > 1" ng-click="startAll()">Roll!</a>
+    <a class="waves-effect waves-light btn roll-it-btn" ng-show="projectUsers.length > 1" ng-click="startAll()">Go</a>
 </div>
 
-<div ng-show="projectUsers.length > 1" class="center-align">
+<div ng-show="projectUsers.length > 0" class="center-align">
     <h5>Included potatoes</h5>
     <p>
         <span ng-repeat="user in projectUsers">
@@ -19,19 +19,29 @@
     </p>
 </div>
 
-<h5 class="center-align" ng-show="checkedUsers.length == 1">The only person in this project is <strong>{$ checkedUsers[0].fullname $}</strong> so errr...</h5>
-<h5 class="center-align" ng-show="project && checkedUsers.length == 0">The project runs itself!</h5>
+<h5 class="center-align" ng-show="project && projectUsers.length == 0">The project runs itself!</h5>
+<h5 class="center-align" ng-show="project && projectUsers.length == 1">One potato, one bugman!</h5>
 <h5 class="center-align" ng-show="!project">pick a project and roll the spuds!</h5>
 
 <div ng-show="checkedUsers.length > 1">
-    <div class="days {$ day $}" ng-repeat="day in days">
-        <h6>{$ day | uppercase $}</h6>
-        <div class="day">
-            <ul>
-                <li data-id="{$ user.username $}" ng-repeat="user in projectUsers">{$ user.fullname $}</li>
-            </ul>
-        </div>
-    </div>
+    <table class="responsive-table">
+        <thead>
+            <tr>
+                <th class="days {$ day $}" ng-repeat="day in days">{$ day | uppercase $}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="days {$ day $}" ng-repeat="day in days">
+                    <div class="day">
+                        <ul>
+                            <li data-id="{$ user.username $}" ng-repeat="user in projectUsers">{$ user.fullname $}</li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <div ng-show="weeklyResults.length > 0" class="week-results">
@@ -42,7 +52,7 @@
             <!-- <img src="images/yuna.jpg" alt="" class="circle"> -->
             <span class="title">Ran by {$ result.ran_by $} on {$ result.created | date:"EEEE" $} at {$ result.created | date:"shortTime" $}</span>
             <p>Partakers: <span ng-repeat="partaker in result.partakers">{$ partaker $}<span ng-show="!$last">, </span></span><br>
-                <span ng-repeat="day in days">{$ day $} <b>{$ result.result[$index] $}</b><span ng-show="!$last">, </span></span>
+                Result: <span ng-repeat="day in days">{$ day $} <b>{$ result.result[$index] $}</b><span ng-show="!$last">, </span></span>
             </p>
         </li>
     </ul>
