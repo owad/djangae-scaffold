@@ -3,7 +3,6 @@
 </div>
 
 <div ng-show="projectUsers.length > 0" class="center-align">
-    <h5>Included potatoes</h5>
     <p>
         <span ng-repeat="user in projectUsers">
             <input type="checkbox"
@@ -17,7 +16,7 @@
         </span>
     </p>
 
-    <a class="waves-effect waves-light btn roll-it-btn" ng-show="projectUsers.length > 1" ng-click="startAll()">Go</a>
+    <a class="waves-effect waves-light btn roll-it-btn" ng-show="checkedUsers.length > 1" ng-click="startAll()">Go</a>
 </div>
 
 <h5 class="center-align" ng-show="project && projectUsers.length == 0">The project runs itself!</h5>
