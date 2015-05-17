@@ -6,6 +6,8 @@ app.controller('ProjectsController', ['$scope', 'alligator', function($scope, al
 
 app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routeParams', 'weeklyResults', function($scope, $http, alligator, $routeParams, weeklyResults) {
 
+    $(".button-collapse").sideNav();
+
     alligator.success(function(data) {
         $scope.projects = data.projects;
         $scope.allocations = data.allocations;
@@ -102,7 +104,7 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routePara
         var loopsCount = offset + getRandomInt(5, 15) * usersCount;
 
         for (var i=0; i<loopsCount; i++) {
-            list.animate({top: '+=40'}, i+50+4*i, 'linear', function () {
+            list.animate({top: '+=31'}, i+50+4*i, 'linear', function () {
                 var usersUl = list.children();
                 var lastUser = usersUl[usersCount - 1];
 
