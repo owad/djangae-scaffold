@@ -45,7 +45,7 @@
 </div>
 
 <div class="week-results">
-    <h5 ng-show="project" class="center-align">Week {$ firstDay | date:"yyyy/MM/dd" $} - {$ lastDay | date:"yyyy/MM/dd" $}</h5>
+    <h5 ng-show="project && weeklyResults.length > 0" class="center-align">Week {$ firstDay | date:"yyyy/MM/dd" $} - {$ lastDay | date:"yyyy/MM/dd" $}</h5>
 
     <p class="center-align" ng-show="weeklyResults.length == 0">bugmans have been not selected for the current week yet</p>
 
