@@ -13,7 +13,7 @@ class LotteryResultViewSet(viewsets.ModelViewSet):
     queryset = LotteryResult.objects.all()
     serializer_class = LotteryResultSerializer
     filter_backends = (filters.OrderingFilter,)
-    ordering = ('created',)
+    ordering = ('-created',)
 
     def get_queryset(self):
         today = date.today()

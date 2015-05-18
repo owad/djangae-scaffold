@@ -26,6 +26,12 @@ indexes:
   - name: project_id
   - name: created
 
+- kind: core_lotteryresult
+  properties:
+  - name: project_id
+  - name: created
+    direction: desc
+
 - kind: cspreports_cspreport
   properties:
   - name: created
