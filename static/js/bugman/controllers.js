@@ -125,7 +125,7 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routePara
                 if ($scope.allStopped()) {
                     $('.roll-it-btn').removeClass('disabled');
                     $('.user-checkbox').prop('disabled', false);
-                    getWeeklyResults();
+                    getWeeklyResults($scope.project);
                 }
             });
         }

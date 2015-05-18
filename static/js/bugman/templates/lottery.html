@@ -44,19 +44,15 @@
     </table>
 </div>
 
-<div ng-show="weeklyResults['results'].length > 0" class="week-results">
-    <h4 class="center-align">Week {$ firstDay | date:"yyyy/MM/dd" $} - {$ lastDay | date:"yyyy/MM/dd" $}</h4>
-    <ul class="collapsible" data-collapsible="accordion">
-        <li ng-repeat="result in weeklyResults['results']" ng-init="$last ? updateCollapsible(): null">
-            <div class="collapsible-header">
-                {$ result.created | date:"EEEE" $} at {$ result.created | date:"shortTime" $}
-                -
-                <span ng-repeat="day in days">{$ day $} <b>{$ result.result[$index] $}</b><span ng-show="!$last">, </span></span>
-            </div>
-            <div class="collapsible-body">
-                <p>Ran by: <b>{$ result.ran_by $}</b><br/>
-                Partakers: <span ng-repeat="partaker in result.partakers"><b>{$ partaker $}</b><span ng-show="!$last">, </span></span></p>
-            </div>
+<div ng-show="weeklyResults.length > 0" class="week-results">
+    <h5 class="center-align">Week {$ firstDay | date:"yyyy/MM/dd" $} - {$ lastDay | date:"yyyy/MM/dd" $}</h5>
+
+    <ul class="collection">
+        <li class="collection-item" ng-repeat="result in weeklyResults">
+            Ran by: <b>{$ result.ran_by $}</b>
+            on {$ result.created | date:"EEEE" $} at {$ result.created | date:"mediumTime" $}<br/>
+            Partakers: <span ng-repeat="partaker in result.partakers"><b>{$ partaker $}</b><span ng-show="!$last">, </span></span><br>
+            Results: <span ng-repeat="day in days">{$ day $} <b>{$ result.result[$index] $}</b><span ng-show="!$last">, </span></span>
         </li>
     </ul>
 </div>

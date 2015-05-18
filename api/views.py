@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, timedelta
 
 from rest_framework import viewsets
 from rest_framework import filters
@@ -16,5 +16,11 @@ class LotteryResultViewSet(viewsets.ModelViewSet):
     ordering = ('created',)
 
     def get_queryset(self):
-        return LotteryResult.objects.filter(project_id=self.kwargs.get('project_id'))
+        today = date.today()
+        monday = today + timedelta(days=-today.weekday())
+        saturday = monday + timedelta(days=5)
+
+        return LotteryResult.objects\
+            .filter(project_id=self.kwargs.get('project_id'))\
+            .filter(created__gt=monday, created__lt=saturday)
 
