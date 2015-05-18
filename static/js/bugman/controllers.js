@@ -18,12 +18,18 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routePara
         $scope.checkedUsers = $scope.projectUsers;
 
         if ($scope.project) {
-            $scope.weeklyResults = getWeeklyResults();
+            $scope.weeklyResults = getWeeklyResults($scope.project);
         }
     });
 
-    var getWeeklyResults = function() {
-        weeklyResults.getResults($routeParams.id)
+    $scope.updateCollapsible = function() {
+        $('.collapsible').collapsible({
+            accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+        });
+    };
+
+    var getWeeklyResults = function(project) {
+        weeklyResults.getResults(project.id)
             .success(function(data) {
                 $scope.weeklyResults = angular.fromJson(data);
             });

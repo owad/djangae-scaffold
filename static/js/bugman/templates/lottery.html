@@ -44,43 +44,19 @@
     </table>
 </div>
 
-<div ng-show="weeklyResults.length > 0" class="week-results">
+<div ng-show="weeklyResults['results'].length > 0" class="week-results">
     <h4 class="center-align">Week {$ firstDay | date:"yyyy/MM/dd" $} - {$ lastDay | date:"yyyy/MM/dd" $}</h4>
-
-    <ul class="collection">
-        <li class="collection-item" ng-repeat="result in weeklyResults">
-            <!-- <img src="images/yuna.jpg" alt="" class="circle"> -->
-            <span class="title">Ran by {$ result.ran_by $} on {$ result.created | date:"EEEE" $} at {$ result.created | date:"shortTime" $}</span>
-            <p>Partakers: <span ng-repeat="partaker in result.partakers">{$ partaker $}<span ng-show="!$last">, </span></span><br>
-                Result: <span ng-repeat="day in days">{$ day $} <b>{$ result.result[$index] $}</b><span ng-show="!$last">, </span></span>
-            </p>
+    <ul class="collapsible" data-collapsible="accordion">
+        <li ng-repeat="result in weeklyResults['results']" ng-init="$last ? updateCollapsible(): null">
+            <div class="collapsible-header">
+                {$ result.created | date:"EEEE" $} at {$ result.created | date:"shortTime" $}
+                -
+                <span ng-repeat="day in days">{$ day $} <b>{$ result.result[$index] $}</b><span ng-show="!$last">, </span></span>
+            </div>
+            <div class="collapsible-body">
+                <p>Ran by: <b>{$ result.ran_by $}</b><br/>
+                Partakers: <span ng-repeat="partaker in result.partakers"><b>{$ partaker $}</b><span ng-show="!$last">, </span></span></p>
+            </div>
         </li>
     </ul>
 </div>
-<!--
-<footer class="page-footer">
-    <div class="container">
-        <div class="row">
-            <div class="col l6 s12">
-                <h5 class="white-text">Footer Content</h5>
-                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
-            </div>
-            <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Links</h5>
-                <ul>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="footer-copyright">
-        <div class="container">
-            © 2014 Copyright Text
-            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-        </div>
-    </div>
-</footer>
--->

@@ -8,7 +8,7 @@
 
 div.day {
     position: relative;
-    width: 180px;
+    width: 120px;
     height: 31px;
     z-index: -10;
     overflow: hidden;
@@ -17,7 +17,7 @@ div.day {
 
 div.day ul {
     position: absolute;
-    width: 180px;
+    width: 120px;
     height: 30px;
     top: -40px;
     padding-left: 0;
@@ -26,9 +26,13 @@ div.day ul {
 div.day ul li {
     display: block;
     height: 30px;
-    width: 180px;
+    width: 120px;
 }
 
 td {
     padding: 10px 5px;
+}
+
+.collapsible-body p {
+    padding: 15px;
 }
