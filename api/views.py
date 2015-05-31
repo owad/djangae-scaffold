@@ -18,9 +18,6 @@ class LotteryResultViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         today = date.today()
         monday = today + timedelta(days=-today.weekday())
-        saturday = monday + timedelta(days=5)
-
-        return LotteryResult.objects\
-            .filter(project_id=self.kwargs.get('project_id'))\
-            .filter(created__gt=monday, created__lt=saturday)
+        nexy_monday = monday + timedelta(days=7)
+        return LotteryResult.objects.filter(project_id=self.kwargs.get('project_id')).filter(created__gt=monday, created__lte=nexy_monday)
 
