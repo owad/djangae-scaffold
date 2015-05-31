@@ -4,8 +4,7 @@
     <head lang="en">
         <meta charset="UTF-8">
         <title></title>
-        <!-- Compiled and minified CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
+        <link rel="stylesheet" href="{% static "css/materialize.min.css" %}">
         <link rel="stylesheet" type="text/css" href="{% static "css/styles.css" %}" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     </head>
@@ -22,7 +21,6 @@
                     <a href="#!" class="brand-logo">Bugman</a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
                     <ul class="right hide-on-med-and-down">
-                        <!-- <li><a href="sass.html">Sass</a></li> -->
                         <li>
                             <a class="dropdown-button" href="#!" data-activates="projects-dropdown">Projects <i class="mdi-navigation-arrow-drop-down right"></i></a>
                         </li>
@@ -40,12 +38,9 @@
         <div ng-view class="container"></div>
 
         <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
-        <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
-
+        <script src="{% static "js/materialize.min.js" %}"></script>
         <script src="{% static "js/angular.js" %}"></script>
         <script src="{% static "js/ng-route.js" %}"></script>
-
         <script src="{% static "js/bugman/app.js" %}"></script>
         <script src="{% static "js/bugman/controllers.js" %}"></script>
         <script src="{% static "js/bugman/services.js" %}"></script>
