@@ -1,5 +1,4 @@
 import json
-import logging
 
 from django.views.generic import TemplateView, CreateView
 from django.http import HttpResponse, HttpResponseForbidden
