@@ -29,7 +29,7 @@ def bugmans(request, project_id):
 
         # store the result
         LotteryResult.objects.create(
-            ran_by=request.user.email().split('@')[0],
+            ran_by=request.user.email.split('@')[0],
             partakers=json.loads(request.body),
             result=[d[1] for d in result],
             project_id=int(project_id),
