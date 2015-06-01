@@ -142,4 +142,8 @@ REST_FRAMEWORK = {
     # ],
 }
 
+ALLOWED_HOSTS = [
+    'bugman.p.ota.to',
+]
+
 from djangae.contrib.gauth.settings import *
