@@ -73,18 +73,12 @@ def get_user_projects(username):
     allocations = get_data('allocations')
 
     allocated_projects = [p['project'] for p in filter(lambda x: x['user'] == username, allocations)]
-    user_projects = filter(lambda x: x['project_id'] in allocated_projects, projects)
-    import logging
-    logging.warning(allocations)
-    logging.warning(projects)
-    logging.warning('==='*20)
-    logging.warning(allocated_projects)
-    logging.warning(user_projects)
+    user_projects = filter(lambda x: x['id'] in allocated_projects, projects)
     return user_projects
 
+
 def alligator(request):
-    get_user_projects(request.gae_username)
-    projects = get_data('projects')
+    projects = get_user_projects(request.gae_username)
     users = get_data('users')
     allocations = get_data('allocations')
 
