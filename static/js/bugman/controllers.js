@@ -107,7 +107,7 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routePara
         var usersUl = list.children();
         var usernames = getUsernamesFromUl(usersUl);
         var offset = usersCount - usernames.indexOf(pick) + 1;
-        var loopsCount = offset + getRandomInt(5, 15) * usersCount;
+        var loopsCount = offset + getRandomInt(5, 15) * 5;
 
         for (var i=0; i<loopsCount; i++) {
             list.animate({top: '+=31'}, i+50+4*i, 'linear', function () {

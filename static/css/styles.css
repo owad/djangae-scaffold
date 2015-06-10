@@ -36,3 +36,7 @@ td {
 .collapsible-body p {
     padding: 15px;
 }
+
+span.project-user {
+    padding-right: 15px;
+}

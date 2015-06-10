@@ -12,5 +12,5 @@ class LoginRequiredMiddleware(object):
         if not email.endswith('@potatolondon.com'):
             return HttpResponseRedirect(
                 users.create_login_url(request.get_full_path()))
-
+        request.gae_username = email.split('@')[0]
         return view_func(request, *view_args, **view_kwargs)

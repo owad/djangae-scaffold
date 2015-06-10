@@ -4,7 +4,7 @@
 
 <div ng-show="projectUsers.length > 0" class="center-align">
     <p>
-        <span ng-repeat="user in projectUsers">
+        <span class="project-user" ng-repeat="user in projectUsers">
             <input type="checkbox"
                    id="{$ user.username $}-checkbox"
                    value="{$ user.username $}"
