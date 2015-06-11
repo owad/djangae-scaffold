@@ -6,6 +6,7 @@
         <title></title>
         <link rel="stylesheet" href="{% static "css/materialize.min.css" %}">
         <link rel="stylesheet" type="text/css" href="{% static "css/styles.css" %}" />
+        <link rel="icon" type="image/png" href="{% static "images/icon.png" %}" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     </head>
     <body ng-app="BugmanApp">
@@ -18,7 +19,7 @@
 
             <nav>
                 <div class="nav-wrapper">
-                    <a href="#!" class="brand-logo">Bugman</a>
+                    <a href="#!" class="bugman-logo"><img src="{% static "images/bugtato.png" %}"</a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
                     <ul class="right hide-on-med-and-down">
                         <li>
