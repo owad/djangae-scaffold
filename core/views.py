@@ -7,6 +7,8 @@ from django.views.generic import TemplateView, CreateView
 from django.http import HttpResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 
+from djangae.utils import on_production
+
 from core.lottery import pick_bugmans, WEEK_DAYS
 from core.dummy import PROJECTS, USERS, ALLOCATIONS
 from core.models import LotteryResult
@@ -78,9 +80,19 @@ def get_user_projects(username):
 
 
 def alligator(request):
-    projects = get_user_projects(request.gae_username)
-    users = get_data('users')
-    allocations = get_data('allocations')
+
+    if on_production():
+        if request.gae_username == 'lukasz':
+            projects = projects = get_data('projects')
+        else:
+            projects = get_user_projects(request.gae_username)
+        projects = get_data('projects')
+        users = get_data('users')
+        allocations = get_data('allocations')
+    else:
+        projects = PROJECTS
+        users = USERS
+        allocations = ALLOCATIONS
 
     data = {
         'projects': projects,

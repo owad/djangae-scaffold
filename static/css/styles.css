@@ -40,3 +40,12 @@ td {
 span.project-user {
     padding-right: 15px;
 }
+
+.nav-wrapper a.dropdown-button {
+    width: 180px;
+    text-align: center;
+}
+
+.bugman-logo img {
+    height: 64px;
+}
