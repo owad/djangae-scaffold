@@ -81,6 +81,10 @@ def get_user_projects(username):
 
 def alligator(request):
 
+    flush_cache = bool(request.GET.get('flush', False))
+    if flush_cache:
+        memcache.flush_all()
+
     if on_production():
         if request.gae_username == 'lukasz':
             projects = get_data('projects')
