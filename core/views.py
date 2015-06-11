@@ -83,10 +83,10 @@ def alligator(request):
 
     if on_production():
         if request.gae_username == 'lukasz':
-            projects = projects = get_data('projects')
+            projects = get_data('projects')
         else:
             projects = get_user_projects(request.gae_username)
-        projects = get_data('projects')
+
         users = get_data('users')
         allocations = get_data('allocations')
     else:
