@@ -61,7 +61,7 @@ def get_data(endpoint):
     data = json.loads(response.content)
 
     lambdas = {
-        'projects':lambda x: x['project_id'] != None,
+        'projects':lambda x: x['name'] not in ['', None],
         'users': None,
         'allocations': lambda x: x['user'] != None
     }
@@ -73,7 +73,6 @@ def get_data(endpoint):
 def get_user_projects(username):
     projects = get_data('projects')
     allocations = get_data('allocations')
-
     allocated_projects = [p['project'] for p in filter(lambda x: x['user'] == username, allocations)]
     user_projects = filter(lambda x: x['id'] in allocated_projects, projects)
     return user_projects
@@ -97,6 +96,8 @@ def alligator(request):
         projects = PROJECTS
         users = USERS
         allocations = ALLOCATIONS
+
+    projects = sorted(projects, key=lambda p: p['name'].lower())
 
     data = {
         'projects': projects,
