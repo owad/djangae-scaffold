@@ -85,11 +85,7 @@ def alligator(request):
         memcache.flush_all()
 
     if on_production():
-        if request.gae_username == 'lukasz':
-            projects = get_data('projects')
-        else:
-            projects = get_user_projects(request.gae_username)
-
+        projects = get_user_projects(request.gae_username)
         users = get_data('users')
         allocations = get_data('allocations')
     else:
