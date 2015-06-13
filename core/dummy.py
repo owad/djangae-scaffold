@@ -2,7 +2,7 @@
 USERS = [
     {
         "username": "user1",
-        "fullname": "User 1",
+        "fullname": "User 1 with a really long name",
         "photo_url": "//example.com/photo.jpg",
         "location": "London",
         "role": "AR",
@@ -11,7 +11,7 @@ USERS = [
     },
     {
         "username": "user2",
-        "fullname": "User 2",
+        "fullname": "User 2 with a really long name",
         "photo_url": "//example.com/photo.jpg",
         "location": "London",
         "role": "AR",
@@ -67,7 +67,7 @@ USERS = [
 PROJECTS = [
     {
         "id": 1,
-        "name": "Project 1",
+        "name": "Project 1 with a really long name",
         "codebase_url": "",
         "project_id": None,
         "project_url": "https://example.com/project/1/",

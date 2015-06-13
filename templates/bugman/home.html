@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load potatobar %}
 <!DOCTYPE html>
 <html ng-csp>
     <head lang="en">
@@ -10,13 +11,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     </head>
     <body ng-app="BugmanApp">
-        <div class="container" ng-controller="ProjectsController">
+        <div class="potatobar">{% potatobar %}</div>
+        <div class="container navbar" ng-controller="ProjectsController">
             <ul id="projects-dropdown" class="dropdown-content">
                 <li ng-repeat="project in projects">
                     <a href="/#/{$ project.id $}/">{$ project.name $}</a>
                 </li>
             </ul>
-
             <nav>
                 <div class="nav-wrapper">
                     <a href="#!" class="bugman-logo"><img src="{% static "images/bugtato-128.png" %}"</a>
