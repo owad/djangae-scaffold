@@ -68,14 +68,20 @@ span.project-user {
     height: auto;
 }
 
+.potatobar li {
+    margin-right: 10px;
+}
+
 .potatobar a {
     text-decoration: none;
     color: #1F4F82;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 12px;
     line-height: 1.7;
-    padding: 0 5px;
+    padding: 0;
 }
+
+
 
 #potatobar input[type="search"] {
     border-radius: 3px;
