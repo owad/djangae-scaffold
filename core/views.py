@@ -52,7 +52,6 @@ def get_data(endpoint):
     data = memcache.get(endpoint)
 
     if data:
-        logging.info('%s from cache' % endpoint)
         return data
 
     response = urlfetch.fetch(
