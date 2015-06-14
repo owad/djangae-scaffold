@@ -11,12 +11,12 @@ app.factory('alligator', ['$http', function($http) {
 
 app.factory('weeklyResults', ['$http', function($http) {
 
-    var urlBase = '/api/lottery-results/';
+    var urlBase = '/api/lottery-results';
     var dataFactory = {};
 
 
     dataFactory.getResults= function (id) {
-        return $http.get(urlBase + '/' + id + '/');
+        return $http.get(urlBase + '/' + id);
     };
 
     return dataFactory;
