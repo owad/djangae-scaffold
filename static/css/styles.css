@@ -126,6 +126,14 @@ nav .button-collapse {
     padding-left: 10px;
 }
 
+nav {
+    height: 64px;
+}
+
 .container {
      width: 100%;
+}
+
+.responsive-table tbody tr {
+    width: 100%;
 }
