@@ -52,7 +52,7 @@ def get_data(endpoint):
     data = memcache.get(endpoint)
 
     if data:
-        logging.warning('%s from cache' % endpoint)
+        logging.info('%s from cache' % endpoint)
         return data
 
     response = urlfetch.fetch(
@@ -74,7 +74,7 @@ def get_data(endpoint):
     }
     data = filter(lambdas[endpoint], data)
     memcache.set(endpoint, data, time=60*60*24)
-    logging.warning('%s refreshed' % endpoint)
+    logging.info('%s refreshed' % endpoint)
     return data
 
 
