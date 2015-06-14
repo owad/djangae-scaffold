@@ -1,4 +1,6 @@
 import json
+import logging
+from datetime import datetime
 
 from google.appengine.api import urlfetch
 from google.appengine.api import memcache
@@ -14,6 +16,7 @@ from core.dummy import PROJECTS, USERS, ALLOCATIONS
 from core.models import LotteryResult
 
 ALLIGATOR_URL_PATTERN = 'https://potato-alligator-v2.appspot.com/api/v2/%s/?format=json'
+DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 
 class Home(TemplateView):
@@ -49,6 +52,7 @@ def get_data(endpoint):
     data = memcache.get(endpoint)
 
     if data:
+        logging.warning('%s from cache' % endpoint)
         return data
 
     response = urlfetch.fetch(
@@ -60,13 +64,17 @@ def get_data(endpoint):
     )
     data = json.loads(response.content)
 
+    spt = datetime.strptime
+    now = datetime.now()
+
     lambdas = {
         'projects':lambda x: x['name'] not in ['', None],
         'users': None,
-        'allocations': lambda x: x['user'] != None
+        'allocations': lambda x: x['user'] != None and spt(x['start'], DATETIME_FORMAT) < now < spt(x['end'], DATETIME_FORMAT)
     }
     data = filter(lambdas[endpoint], data)
     memcache.set(endpoint, data, time=60*60*24)
+    logging.warning('%s refreshed' % endpoint)
     return data
 
 
