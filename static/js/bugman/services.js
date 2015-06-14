@@ -1,6 +1,3 @@
-var ALLIGATOR_BASE = 'https://alligator.p.ota.to/api/v2/'
-
-
 app.factory('alligator', ['$http', function($http) {
 
     return $http.get('/api/alligator/')
@@ -14,7 +11,7 @@ app.factory('alligator', ['$http', function($http) {
 
 app.factory('weeklyResults', ['$http', function($http) {
 
-    var urlBase = '/api/lottery-results';
+    var urlBase = '/api/lottery-results/';
     var dataFactory = {};
 
 
