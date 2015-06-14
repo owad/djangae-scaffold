@@ -48,11 +48,13 @@ span.project-user {
 .nav-wrapper a.dropdown-button {
     width: 180px;
     text-align: center;
+    height: 80px;
+    padding-top: 30px;
 }
 
 .bugman-logo img {
     height: 64px;
-    margin-left: 10px;
+    margin: 10px 0 0 10px;
 }
 
 .potatobar nav {
@@ -127,7 +129,7 @@ nav .button-collapse {
 }
 
 nav {
-    height: 64px;
+    height: 80px;
 }
 
 .container {
@@ -136,4 +138,8 @@ nav {
 
 .responsive-table tbody tr {
     width: 100%;
+}
+
+i.mdi-navigation-menu {
+    padding-top: 10px;
 }
