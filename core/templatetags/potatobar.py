@@ -5,7 +5,7 @@ from django import template
 register = template.Library()
 
 
-POTATOBAR_URL = "http://p.ota.to/static/potatobar.html"
+POTATOBAR_URL = "https://p.ota.to/static/potatobar.html"
 POTATOBAR_MC_KEY = "potatobar"
 
 

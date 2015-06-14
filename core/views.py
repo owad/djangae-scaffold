@@ -68,8 +68,8 @@ def get_data(endpoint):
 
     lambdas = {
         'projects':lambda x: x['name'] not in ['', None],
-        'users': None,
-        'allocations': lambda x: x['user'] != None and spt(x['start'], DATETIME_FORMAT) < now < spt(x['end'], DATETIME_FORMAT)
+        'users': lambda x: x['role'] in ["FE", "BE", "AR"],
+        'allocations': lambda x: x['user'] is not None and spt(x['start'], DATETIME_FORMAT) < now < spt(x['end'], DATETIME_FORMAT)
     }
     data = filter(lambdas[endpoint], data)
     memcache.set(endpoint, data, time=60*60*24)
@@ -81,8 +81,7 @@ def get_user_projects(username):
     projects = get_data('projects')
     allocations = get_data('allocations')
     allocated_projects = [p['project'] for p in filter(lambda x: x['user'] == username, allocations)]
-    user_projects = filter(lambda x: x['id'] in allocated_projects, projects)
-    return user_projects
+    return filter(lambda x: x['id'] in allocated_projects, projects)
 
 
 def alligator(request):
@@ -94,7 +93,8 @@ def alligator(request):
     if on_production():
         projects = get_user_projects(request.gae_username)
         users = get_data('users')
-        allocations = get_data('allocations')
+        user_names = [u['username'] for u in users]
+        allocations = filter(lambda x: x['user'] in user_names, get_data('allocations'))
     else:
         projects = PROJECTS
         users = USERS
