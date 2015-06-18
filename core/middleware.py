@@ -1,6 +1,6 @@
 import logging
 
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseRedirect
 from google.appengine.api import users
 from django.conf import settings
 
@@ -19,7 +19,6 @@ class AuthMiddleware(object):
         if email and email.endswith("@%s" % settings.POTATO_DOMAIN):
             username = email.split('@')[0]
             request.gae_username = username
-            logging.info("Allowed API request from user '%s'" % email)
         else:
-            logging.warn("Denied API request for user email '%s'" % email)
-            return HttpResponseForbidden()
+            logging.warn("Denied API request for user email '%s'" % email
+            return HttpResponseRedirect(users.create_login_url())
