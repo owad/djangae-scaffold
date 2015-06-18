@@ -58,6 +58,7 @@ MIDDLEWARE_CLASSES = (
     'csp.middleware.CSPMiddleware',
     'session_csrf.CsrfMiddleware',
     'djangosecure.middleware.SecurityMiddleware',
+    'core.middleware.AuthMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -139,5 +140,7 @@ REST_FRAMEWORK = {
     #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     # ],
 }
+
+POTATO_DOMAIN = 'potatolondon.com'
 
 from djangae.contrib.gauth.settings import *

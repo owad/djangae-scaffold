@@ -104,10 +104,6 @@ def get_user_projects(username):
     return filter(lambda x: x['id'] in allocated_projects, projects)
 
 
-def get_username():
-    return users.get_current_user().email().split('@')[0]
-
-
 def alligator(request):
     """
     Returns JSON data retrieved from the alligator app
@@ -118,7 +114,7 @@ def alligator(request):
         memcache.flush_all()
 
     if on_production():
-        projects = get_user_projects(get_username())
+        projects = get_user_projects(request.gae_username)
         users = get_data(ALLIGATOR_USERS)
         user_names = map(lambda usr: usr['username'], users)
         allocations = filter(lambda usr: usr['user'] in user_names, get_data(ALLIGATOR_ALLOCATIONS))
