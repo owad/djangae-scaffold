@@ -28,6 +28,8 @@ ALLIGATOR_USERS = 'users'
 ALLIGATOR_ALLOCATIONS = 'allocations'
 CACHE_TIME = 60 * 60 * 6
 
+POTATO_ROLES = ["FE", "BE", "AR"]  # only there potatoes will be included in the lottery
+
 
 class Home(TemplateView):
     template_name = 'bugman/home.html'
@@ -42,6 +44,9 @@ home = Home.as_view()
 
 @csrf_exempt
 def bugmans(request, project_id):
+    """
+    Returns current week's results for a selected projects in a JSON format
+    """
 
     if request.method == 'POST':
         usernames = json.loads(request.body)
@@ -59,6 +64,10 @@ def bugmans(request, project_id):
 
 
 def get_data(endpoint, refresh=False):
+    """
+    Retrieves alligator data and caches it if needed
+    """
+
     data = memcache.get(endpoint)
     if not refresh and data:
         return data
@@ -80,7 +89,7 @@ def get_data(endpoint, refresh=False):
 
     lambdas = {
         ALLIGATOR_PROJECTS: lambda x: x['name'] not in ['', None],
-        ALLIGATOR_USERS: lambda x: x['role'] in ["FE", "BE", "AR"],
+        ALLIGATOR_USERS: lambda x: x['role'] in POTATO_ROLES,
         ALLIGATOR_ALLOCATIONS: lambda x: x['user'] is not None and spt(x['start'], DATETIME_FORMAT) < now < spt(x['end'], DATETIME_FORMAT)
     }
     data = filter(lambdas[endpoint], data)
@@ -100,6 +109,9 @@ def get_username():
 
 
 def alligator(request):
+    """
+    Returns JSON data retrieved from the alligator app
+    """
 
     flush_cache = bool(request.GET.get('flush', False))
     if flush_cache:
