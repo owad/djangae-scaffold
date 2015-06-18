@@ -31,7 +31,7 @@ TEMPLATE_DEBUG = True
 # Application definition
 
 INSTALLED_APPS = (
-    'djangae', # Djangae needs to come before django apps in django 1.7 and above
+    'djangae',  # Djangae needs to come before django apps in django 1.7 and above
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,8 +58,6 @@ MIDDLEWARE_CLASSES = (
     'csp.middleware.CSPMiddleware',
     'session_csrf.CsrfMiddleware',
     'djangosecure.middleware.SecurityMiddleware',
-
-    'core.middleware.LoginRequiredMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -141,9 +139,5 @@ REST_FRAMEWORK = {
     #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     # ],
 }
-
-ALLOWED_HOSTS = [
-    'bugman.p.ota.to',
-]
 
 from djangae.contrib.gauth.settings import *

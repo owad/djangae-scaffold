@@ -2,11 +2,15 @@ import json
 import logging
 from datetime import datetime
 
-from google.appengine.api import urlfetch
-from google.appengine.api import memcache
+from google.appengine.api import (
+    urlfetch,
+    memcache,
+    users,
+)
+from google.appengine.ext import deferred
 
-from django.views.generic import TemplateView, CreateView
-from django.http import HttpResponse, HttpResponseForbidden
+from django.views.generic import TemplateView
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from djangae.utils import on_production
@@ -17,6 +21,12 @@ from core.models import LotteryResult
 
 ALLIGATOR_URL_PATTERN = 'https://potato-alligator-v2.appspot.com/api/v2/%s/?format=json'
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
+
+
+ALLIGATOR_PROJECTS = 'projects'
+ALLIGATOR_USERS = 'users'
+ALLIGATOR_ALLOCATIONS = 'allocations'
+CACHE_TIME = 60 * 60 * 6
 
 
 class Home(TemplateView):
@@ -48,10 +58,9 @@ def bugmans(request, project_id):
         return HttpResponse(json.dumps(dict(result)))
 
 
-def get_data(endpoint):
+def get_data(endpoint, refresh=False):
     data = memcache.get(endpoint)
-
-    if data:
+    if not refresh and data:
         return data
 
     response = urlfetch.fetch(
@@ -60,6 +69,9 @@ def get_data(endpoint):
         follow_redirects=False,
         deadline=60,
         validate_certificate=False,
+        headers={
+            'X-Appengine-Cron': True
+        }
     )
     data = json.loads(response.content)
 
@@ -67,21 +79,24 @@ def get_data(endpoint):
     now = datetime.now()
 
     lambdas = {
-        'projects':lambda x: x['name'] not in ['', None],
-        'users': lambda x: x['role'] in ["FE", "BE", "AR"],
-        'allocations': lambda x: x['user'] is not None and spt(x['start'], DATETIME_FORMAT) < now < spt(x['end'], DATETIME_FORMAT)
+        ALLIGATOR_PROJECTS: lambda x: x['name'] not in ['', None],
+        ALLIGATOR_USERS: lambda x: x['role'] in ["FE", "BE", "AR"],
+        ALLIGATOR_ALLOCATIONS: lambda x: x['user'] is not None and spt(x['start'], DATETIME_FORMAT) < now < spt(x['end'], DATETIME_FORMAT)
     }
     data = filter(lambdas[endpoint], data)
-    memcache.set(endpoint, data, time=60*60*24)
-    logging.info('%s refreshed' % endpoint)
+    memcache.set(endpoint, data, time=CACHE_TIME)
     return data
 
 
 def get_user_projects(username):
-    projects = get_data('projects')
-    allocations = get_data('allocations')
-    allocated_projects = [p['project'] for p in filter(lambda x: x['user'] == username, allocations)]
+    projects = get_data(ALLIGATOR_PROJECTS)
+    allocations = get_data(ALLIGATOR_ALLOCATIONS)
+    allocated_projects = [p['project'] for p in filter(lambda usr: usr['user'] == username, allocations)]
     return filter(lambda x: x['id'] in allocated_projects, projects)
+
+
+def get_username():
+    return users.get_current_user().email().split('@')[0]
 
 
 def alligator(request):
@@ -91,10 +106,10 @@ def alligator(request):
         memcache.flush_all()
 
     if on_production():
-        projects = get_user_projects(request.gae_username)
-        users = get_data('users')
-        user_names = [u['username'] for u in users]
-        allocations = filter(lambda x: x['user'] in user_names, get_data('allocations'))
+        projects = get_user_projects(get_username())
+        users = get_data(ALLIGATOR_USERS)
+        user_names = map(lambda usr: usr['username'], users)
+        allocations = filter(lambda usr: usr['user'] in user_names, get_data(ALLIGATOR_ALLOCATIONS))
     else:
         projects = PROJECTS
         users = USERS
@@ -103,8 +118,15 @@ def alligator(request):
     projects = sorted(projects, key=lambda p: p['name'].lower())
 
     data = {
-        'projects': projects,
-        'users': users,
-        'allocations': allocations,
+        ALLIGATOR_PROJECTS: projects,
+        ALLIGATOR_USERS: users,
+        ALLIGATOR_ALLOCATIONS: allocations,
     }
     return HttpResponse(json.dumps(data))
+
+
+def alligator_data_refresh(request):
+    for endpoint in [ALLIGATOR_USERS, ALLIGATOR_PROJECTS, ALLIGATOR_ALLOCATIONS]:
+        logging.info("Refreshing %s" % endpoint)
+        deferred.defer(get_data, endpoint, refresh=True)
+    return HttpResponse('Data refreshed!')

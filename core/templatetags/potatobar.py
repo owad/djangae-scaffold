@@ -2,8 +2,9 @@ import re
 from google.appengine.api import urlfetch, memcache
 
 from django import template
-register = template.Library()
+from djangae.utils import on_production
 
+register = template.Library()
 
 POTATOBAR_URL = "https://p.ota.to/static/potatobar.html"
 POTATOBAR_MC_KEY = "potatobar"
@@ -11,6 +12,8 @@ POTATOBAR_MC_KEY = "potatobar"
 
 @register.simple_tag
 def potatobar():
+    if not on_production():
+        return ''
 
     potatobar = memcache.get(POTATOBAR_MC_KEY)
 

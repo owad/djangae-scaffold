@@ -6,6 +6,12 @@ threadsafe: true
 
 handlers:
 
+# Crons
+- url: /cron/alligator/
+  script: scaffold.wsgi.application
+  secure: always
+  login: admin
+
 - url: /_ah/(mapreduce|queue|warmup).*
   script: scaffold.wsgi.application
   login: admin
@@ -27,7 +33,6 @@ handlers:
 
 - url: /.*
   script: scaffold.wsgi.application
-  login: required
   secure: always
 
 skip_files:

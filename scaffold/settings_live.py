@@ -19,3 +19,9 @@ SECURE_CHECKS += ["scaffold.checks.check_csp_sources_not_unsafe"]
 
 DEBUG = False
 TEMPLATE_DEBUG = False
+
+ALLOWED_HOSTS = [
+    '.appspot.com',
+    '.p.ota.to',
+    '.potatolondon.com'
+]

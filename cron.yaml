@@ -1,0 +1,4 @@
+cron:
+- description: Imports and updates projects
+  url: /cron/alligator/
+  schedule: every 2 hours
