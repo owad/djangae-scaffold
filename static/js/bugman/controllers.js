@@ -12,6 +12,7 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routePara
         $scope.projects = data.projects;
         $scope.allocations = data.allocations;
         $scope.users = data.users;
+        $scope.allUsers = data.all_users;
         $scope.projectId = $routeParams.id;
         $scope.project = $scope.selectProject($scope.projectId);
         $scope.projectUsers = filterUsers(parseInt($scope.projectId));
@@ -26,6 +27,16 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routePara
         $('.collapsible').collapsible({
             accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
         });
+    };
+
+    $scope.getFullname = function(username) {
+        var filteredUser = $scope.allUsers.filter(function(user) {
+            return username == user.username;
+        });
+        if (filteredUser.length > 0) {
+            return filteredUser[0].fullname;
+        }
+        return username;
     };
 
     var getWeeklyResults = function(project) {

@@ -1,6 +1,7 @@
 import json
 import logging
 from datetime import datetime
+from copy import copy
 
 from google.appengine.api import (
     urlfetch,
@@ -69,6 +70,7 @@ def get_data(endpoint, refresh=False):
     """
 
     data = memcache.get(endpoint)
+    logging.warning(["Refresh: ", refresh, "Data: ", bool(data)])
     if not refresh and data:
         return data
 
@@ -83,7 +85,16 @@ def get_data(endpoint, refresh=False):
         }
     )
     data = json.loads(response.content)
+    memcache.set(endpoint, data, time=CACHE_TIME)
+    return data
 
+
+def get_filtered_data(endpoint):
+    """
+    Cleans and filters alligator data
+    """
+
+    data = get_data(endpoint)
     spt = datetime.strptime
     now = datetime.now()
 
@@ -92,14 +103,12 @@ def get_data(endpoint, refresh=False):
         ALLIGATOR_USERS: lambda x: x['role'] in POTATO_ROLES,
         ALLIGATOR_ALLOCATIONS: lambda x: x['user'] is not None and spt(x['start'], DATETIME_FORMAT) < now < spt(x['end'], DATETIME_FORMAT)
     }
-    data = filter(lambdas[endpoint], data)
-    memcache.set(endpoint, data, time=CACHE_TIME)
-    return data
+    return filter(lambdas[endpoint], data)
 
 
 def get_user_projects(username):
-    projects = get_data(ALLIGATOR_PROJECTS)
-    allocations = get_data(ALLIGATOR_ALLOCATIONS)
+    projects = get_filtered_data(ALLIGATOR_PROJECTS)
+    allocations = get_filtered_data(ALLIGATOR_ALLOCATIONS)
     allocated_projects = [p['project'] for p in filter(lambda usr: usr['user'] == username, allocations)]
     return filter(lambda x: x['id'] in allocated_projects, projects)
 
@@ -109,18 +118,16 @@ def alligator(request):
     Returns JSON data retrieved from the alligator app
     """
 
-    flush_cache = bool(request.GET.get('flush', False))
-    if flush_cache:
-        memcache.flush_all()
-
     if on_production():
         projects = get_user_projects(request.gae_username)
-        users = get_data(ALLIGATOR_USERS)
+        users = get_filtered_data(ALLIGATOR_USERS)
+        all_users = get_data(ALLIGATOR_USERS)
         user_names = map(lambda usr: usr['username'], users)
-        allocations = filter(lambda usr: usr['user'] in user_names, get_data(ALLIGATOR_ALLOCATIONS))
+        allocations = filter(lambda usr: usr['user'] in user_names, get_filtered_data(ALLIGATOR_ALLOCATIONS))
     else:
         projects = PROJECTS
         users = USERS
+        all_users = USERS
         allocations = ALLOCATIONS
 
     projects = sorted(projects, key=lambda p: p['name'].lower())
@@ -129,6 +136,7 @@ def alligator(request):
         ALLIGATOR_PROJECTS: projects,
         ALLIGATOR_USERS: users,
         ALLIGATOR_ALLOCATIONS: allocations,
+        'all_users': all_users,
     }
     return HttpResponse(json.dumps(data))
 

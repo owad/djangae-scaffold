@@ -1,4 +1,4 @@
 cron:
 - description: Imports and updates projects
   url: /_ah/cron/alligator/
-  schedule: every 2 hours
+  schedule: every 1 minutes

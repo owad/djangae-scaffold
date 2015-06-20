@@ -1,7 +1,7 @@
 from random import sample, choice
 
 
-WEEK_DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+WEEK_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
 
 
 def pick_bugmans(usernames, days):

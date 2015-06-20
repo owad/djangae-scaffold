@@ -53,22 +53,22 @@
         <h6>Last result:</h6>
         <ul class="collection">
             <li class="collection-item" ng-repeat="result in weeklyResults" ng-show="$first">
-                Ran by: <b>{$ result.ran_by $}</b>
+                Ran by: <b>{$ getFullname(result.ran_by) $}</b>
                 on {$ result.created | date:"EEEE" $} at {$ result.created | date:"mediumTime" $}<br/>
-                Partakers: <span ng-repeat="partaker in result.partakers"><b>{$ partaker $}</b><span ng-show="!$last">, </span></span><br>
-                Results: <span ng-repeat="day in days">{$ day $} <b>{$ result.result[$index] $}</b><span ng-show="!$last">, </span></span>
+                Partakers: <span ng-repeat="partaker in result.partakers"><b>{$ getFullname(partaker) $}</b><span ng-show="!$last">, </span></span><br>
+                Results: <span ng-repeat="day in days"><span class="first-capital"{$ day.substring(0, 3) $}</span> <b>{$ getFullname(result.result[$index]) $}</b><span ng-show="!$last">, </span></span>
             </li>
         </ul>
     </div>
 
     <div ng-show="weeklyResults.length > 1">
-        <h6>Previously ran results:</h6>
+        <h6>Previously run results:</h6>
         <ul class="collection">
             <li class="collection-item" ng-repeat="result in weeklyResults" ng-hide="$first">
-                Ran by: <b>{$ result.ran_by $}</b>
+                Ran by: <b>{$ getFullname(result.ran_by) $}</b>
                 on {$ result.created | date:"EEEE" $} at {$ result.created | date:"mediumTime" $}<br/>
-                Partakers: <span ng-repeat="partaker in result.partakers"><b>{$ partaker $}</b><span ng-show="!$last">, </span></span><br>
-                Results: <span ng-repeat="day in days">{$ day $} <b>{$ result.result[$index] $}</b><span ng-show="!$last">, </span></span>
+                Partakers: <span ng-repeat="partaker in result.partakers"><b>{$ getFullname(partaker) $}</b><span ng-show="!$last">, </span></span><br>
+                Results: <span ng-repeat="day in days"><span class="first-capital">{$ day.substring(0, 3) $}</span> <b>{$ getFullname(result.result[$index]) $}</b><span ng-show="!$last">, </span></span>
             </li>
         </ul>
     </div>
