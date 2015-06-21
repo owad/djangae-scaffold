@@ -43,4 +43,4 @@ class LotteryTest(TestCase):
         devs = ['bob']
         days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         res = pick_bugmans(devs, days)
-        self.assertTrue(all(dev == 'bob' for dev in res))
+        self.assertTrue(all(dev == 'bob' for dev in [d[1] for d in res]))
