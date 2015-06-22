@@ -56,7 +56,7 @@
                 Ran by: <b>{$ getFullname(result.ran_by) $}</b>
                 on {$ result.created | date:"EEEE" $} at {$ result.created | date:"mediumTime" $}<br/>
                 Partakers: <span ng-repeat="partaker in result.partakers"><b>{$ getFullname(partaker) $}</b><span ng-show="!$last">, </span></span><br>
-                Results: <span ng-repeat="day in days"><span class="first-capital"{$ day.substring(0, 3) $}</span> <b>{$ getFullname(result.result[$index]) $}</b><span ng-show="!$last">, </span></span>
+                Results: <span ng-repeat="day in days"><span class="first-capital">{$ day.substring(0, 3) $}</span> <b>{$ getFullname(result.result[$index]) $}</b><span ng-show="!$last">, </span></span>
             </li>
         </ul>
     </div>
@@ -65,10 +65,10 @@
         <h6>Previously run results:</h6>
         <ul class="collection">
             <li class="collection-item" ng-repeat="result in weeklyResults" ng-hide="$first">
-                Ran by: <b>{$ getFullname(result.ran_by) $}</b>
+                Ran by: {$ getFullname(result.ran_by) $}
                 on {$ result.created | date:"EEEE" $} at {$ result.created | date:"mediumTime" $}<br/>
-                Partakers: <span ng-repeat="partaker in result.partakers"><b>{$ getFullname(partaker) $}</b><span ng-show="!$last">, </span></span><br>
-                Results: <span ng-repeat="day in days"><span class="first-capital">{$ day.substring(0, 3) $}</span> <b>{$ getFullname(result.result[$index]) $}</b><span ng-show="!$last">, </span></span>
+                Partakers: <span ng-repeat="partaker in result.partakers">{$ getFullname(partaker) $}<span ng-show="!$last">, </span></span><br>
+                Results: <span ng-repeat="day in days"><span class="first-capital">{$ day.substring(0, 3) $}</span> {$ getFullname(result.result[$index]) $}<span ng-show="!$last">, </span></span>
             </li>
         </ul>
     </div>

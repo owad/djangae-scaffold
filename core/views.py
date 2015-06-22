@@ -1,7 +1,5 @@
 import json
-import logging
 from datetime import datetime
-from copy import copy
 
 from google.appengine.api import (
     urlfetch,
@@ -11,12 +9,12 @@ from google.appengine.api import (
 from google.appengine.ext import deferred
 
 from django.views.generic import TemplateView
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from djangae.utils import on_production
 
-from core.lottery import pick_bugmans, WEEK_DAYS
+from core.lottery import pick_bugmans
 from core.dummy import PROJECTS, USERS, ALLOCATIONS
 from core.models import LotteryResult
 
@@ -30,6 +28,7 @@ ALLIGATOR_ALLOCATIONS = 'allocations'
 CACHE_TIME = 60 * 60 * 6
 
 POTATO_ROLES = ["FE", "BE", "AR"]  # only there potatoes will be included in the lottery
+WEEK_DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
 
 
 class Home(TemplateView):
@@ -60,8 +59,7 @@ def bugmans(request, project_id):
             result=[d[1] for d in result],
             project_id=int(project_id),
         )
-
-        return HttpResponse(json.dumps(dict(result)))
+        return JsonResponse(dict(result))
 
 
 def get_data(endpoint, refresh=False):
@@ -70,7 +68,6 @@ def get_data(endpoint, refresh=False):
     """
 
     data = memcache.get(endpoint)
-    logging.warning(["Refresh: ", refresh, "Data: ", bool(data)])
     if not refresh and data:
         return data
 
@@ -143,6 +140,5 @@ def alligator(request):
 
 def alligator_data_refresh(request):
     for endpoint in [ALLIGATOR_USERS, ALLIGATOR_PROJECTS, ALLIGATOR_ALLOCATIONS]:
-        logging.info("Refreshing %s" % endpoint)
         deferred.defer(get_data, endpoint, refresh=True)
     return HttpResponse('Data refreshed!')

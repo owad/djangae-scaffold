@@ -1,10 +1,6 @@
 from random import sample, choice
 
 
-WEEK_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
-WEEK_DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
-
-
 def pick_bugmans(usernames, days):
     if len(usernames) >= len(days):
         losers = sample(usernames, len(days))

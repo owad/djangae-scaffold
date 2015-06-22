@@ -16,7 +16,7 @@ app.factory('weeklyResults', ['$http', function($http) {
 
 
     dataFactory.getResults= function (id) {
-        return $http.get(urlBase + '/' + id);
+        return $http.get(urlBase + '/' + id + '/');
     };
 
     return dataFactory;
