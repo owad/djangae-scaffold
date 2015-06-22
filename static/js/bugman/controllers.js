@@ -94,6 +94,7 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routePara
     };
 
     $scope.days = new Array("monday", "tuesday", "wednesday", "thursday", "friday");
+    $scope.short_days = new Array("Mon", "Tue", "Wed", "Thu", "Fri");
 
     var getUsernamesFromUl = function(users) {
         var usernames = new Array();
@@ -118,7 +119,7 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routePara
         var usersUl = list.children();
         var usernames = getUsernamesFromUl(usersUl);
         var offset = usersCount - usernames.indexOf(pick) + 1;
-        var loopsCount = offset + getRandomInt(2, 6) * usersCount;
+        var loopsCount = offset + getRandomInt(2, 6) * 5;
 
         for (var i=0; i<loopsCount; i++) {
             list.animate({top: '+=30'}, i+25+2*i, 'linear', function () {
