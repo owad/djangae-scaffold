@@ -47,11 +47,8 @@ app.controller('LotteryController', ['$scope', '$http', 'alligator', '$routePara
     };
 
     // set first and last day of a week
-    var curr = new Date;
-    var first = curr.getDate() - curr.getDay() + 1;
-    var last = first + 4;
-    $scope.firstDay = new Date(curr.setDate(first)).getTime();
-    $scope.lastDay = new Date(curr.setDate(last)).getTime();
+    $scope.firstDay = moment().startOf('week').toDate();
+    $scope.lastDay = moment().endOf('week').toDate();
 
     $scope.losers = false;
 
