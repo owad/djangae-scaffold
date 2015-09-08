@@ -97,7 +97,7 @@ def get_filtered_data(endpoint):
 
     lambdas = {
         ALLIGATOR_PROJECTS: lambda x: x['name'] not in ['', None],
-        ALLIGATOR_USERS: lambda x: x['role'] in POTATO_ROLES,
+        ALLIGATOR_USERS: lambda x: x['skillset'] in POTATO_ROLES,
         ALLIGATOR_ALLOCATIONS: lambda x: x['user'] is not None and spt(x['start'], DATETIME_FORMAT) < now < spt(x['end'], DATETIME_FORMAT)
     }
     return filter(lambdas[endpoint], data)
