@@ -3,7 +3,7 @@ import os
 import sys
 
 from {{ project_name }}.boot import fix_path
-fix_path(include_dev_libs_path=True)
+fix_path(include_dev_libs_path='test' in sys.argv)
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "{{ project_name }}.settings")
